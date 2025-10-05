@@ -4,6 +4,39 @@
 
 An **AI-powered data exploration and analysis tool** that seamlessly connects natural language queries to SQL databases, processes uploaded files, and provides interactive visualizations - all through an intuitive web interface.
 
+## 📸 Application Preview
+
+<div align="center">
+
+### Main Interface
+![Main Dashboard](docs/images/main-dashboard.png)
+
+### Key Features in Action
+<table>
+  <tr>
+    <td align="center">
+      <img src="docs/images/schema-browser.png" width="400px" alt="Schema Browser"/>
+      <br><b>Interactive Schema Browser</b>
+    </td>
+    <td align="center">
+      <img src="docs/images/natural-language-query.png" width="400px" alt="Natural Language Query"/>
+      <br><b>Natural Language to SQL</b>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <img src="docs/images/query-results.png" width="400px" alt="Query Results"/>
+      <br><b>Formatted Results & Charts</b>
+    </td>
+    <td align="center">
+      <img src="docs/images/data-visualization.png" width="400px" alt="Data Visualization"/>
+      <br><b>Interactive Visualizations</b>
+    </td>
+  </tr>
+</table>
+
+</div>
+
 ## 🌟 Key Features
 
 ### 🤖 AI-Powered Query Generation
@@ -153,6 +186,24 @@ sudo systemctl start mariadb
 
 ## ✨ Features Guide
 
+### 🖥️ Application Screenshots
+
+#### Main Dashboard
+![Main Dashboard](docs/images/main-dashboard.png)
+*Clean, intuitive interface with real-time database connection status*
+
+#### Schema Browser
+![Schema Browser](docs/images/schema-browser.png)
+*Interactive database schema exploration with table details and sample data*
+
+#### Natural Language Query Interface
+![Natural Language Query](docs/images/natural-language-query.png)
+*Convert plain English questions into optimized SQL queries*
+
+#### Query Results & Visualization
+![Query Results](docs/images/query-results.png)
+*Formatted results with automatic chart generation and export options*
+
 ### 🤖 Natural Language Queries
 
 1. **Open Schema Browser Tab**
@@ -179,6 +230,14 @@ sudo systemctl start mariadb
 
 ### 📁 File Upload & Analysis
 
+#### File Upload Interface
+![File Upload](docs/images/file-upload.png)
+*Drag-and-drop interface supporting CSV, Excel, and JSON files*
+
+#### Data Processing & Preview
+![Data Processing](docs/images/data-processing.png)
+*Automatic file type detection with instant data preview and statistics*
+
 1. **Upload Data Files**
    - Drag and drop CSV, Excel, or JSON files
    - Automatic file type detection
@@ -190,6 +249,10 @@ sudo systemctl start mariadb
    - Export results and visualizations
 
 ### 📊 Data Visualization
+
+#### Interactive Charts & Graphs
+![Data Visualization](docs/images/data-visualization.png)
+*AI-powered chart recommendations with interactive features*
 
 - **Automatic Chart Suggestions**: AI recommends optimal chart types
 - **Interactive Plots**: Zoom, filter, and export visualizations
