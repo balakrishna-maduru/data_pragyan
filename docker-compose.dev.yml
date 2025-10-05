@@ -1,0 +1,87 @@
+version: '3.8'
+
+services:
+  mariadb:
+    image: mariadb:10.11
+    container_name: data_pragyan_mariadb_dev
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: data_pragyan_dev
+      MYSQL_USER: datafixer
+      MYSQL_PASSWORD: datafixer123
+    ports:
+      - "3306:3306"  # Expose for external connections
+    volumes:
+      - mariadb_dev_data:/var/lib/mysql
+      - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./sql/sample_data.sql:/docker-entrypoint-initdb.d/sample_data.sql
+    networks:
+      - data_pragyan_network
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    restart: unless-stopped
+
+  data-pragyan:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: data_pragyan_app_dev
+    ports:
+      - "8501:8501"
+    environment:
+      - DATABASE_URL=mysql+pymysql://datafixer:datafixer123@mariadb:3306/data_pragyan_dev
+      - GOOGLE_API_KEY=${GOOGLE_API_KEY}
+      - LLM_MODEL=${LLM_MODEL:-gemini-1.5-flash}
+      - LLM_TEMPERATURE=${LLM_TEMPERATURE:-0.1}
+      - ENVIRONMENT=development
+      - STREAMLIT_SERVER_RUNONDISKCHANGES=true
+    volumes:
+      - ./src:/app/src  # Live reload for development
+      - ./uploads:/app/uploads
+      - ./logs:/app/logs
+    depends_on:
+      mariadb:
+        condition: service_healthy
+    networks:
+      - data_pragyan_network
+    restart: unless-stopped
+    stdin_open: true
+    tty: true
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: data_pragyan_phpmyadmin_dev
+    environment:
+      PMA_HOST: mariadb
+      PMA_USER: datafixer
+      PMA_PASSWORD: datafixer123
+      MYSQL_ROOT_PASSWORD: rootpassword
+      PMA_ARBITRARY: 1
+    ports:
+      - "8080:80"
+    depends_on:
+      - mariadb
+    networks:
+      - data_pragyan_network
+    restart: unless-stopped
+
+  # Redis for caching (development)
+  redis:
+    image: redis:alpine
+    container_name: data_pragyan_redis_dev
+    ports:
+      - "6379:6379"
+    networks:
+      - data_pragyan_network
+    restart: unless-stopped
+
+volumes:
+  mariadb_dev_data:
+    driver: local
+
+networks:
+  data_pragyan_network:
+    driver: bridge
